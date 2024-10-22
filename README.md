@@ -40,6 +40,13 @@ For breadboard see image above. The Fritzing breadboard diagram looks as follows
 
 ![Fritzing breadboard diagram](./doc/media/breadboard.png)
 
+An alternative would be a solder breadboard to make something semi-permanent (the green activity LED is hidden between the jumper wires of the USB/serial converter cable):
+
+![Solder breadboard top](./doc/media/solder-breadboard_top.jpg)
+
+![Solder breadboard bottom](./doc/media/solder-breadboard_bottom.jpg)
+
+
 ### Firmware
 
 Find the productive firmware in folder `./firmware`.
