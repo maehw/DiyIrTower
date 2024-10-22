@@ -17,16 +17,18 @@ to **load user programs and firmware** on the yellow LEGO Mindstorms RCX program
 
 Pin Assignment Table for the ATtiny13A:
 
-| IC Pin | Pin    | Purpose              | Direction | Side of IC | 
-|--------|--------|----------------------|-----------|------------|
-| 1      | PB5    | Reset                | Unused    | Left       |
-| 2      | PB3    | IR_LED_TX_PIN        | Output    | Left       |
-| 3      | PB4    | PHOTO_RX_PIN         | Input     | Left       |
-| 4      | GND    | Ground               | -         | Left       |
-| 5      | PB0    | UART_RX_PIN          | Output    | Right      |
-| 6      | PB1    | UART_TX_PIN          | Input     | Right      |
-| 7      | PB2    | IR_ACTIVITY_LED_PIN  | Output    | Right      |
-| 8      | VCC    | Supply Voltage (VCC) | -         | Right      |
+| IC Pin | Pin    | Purpose              | Direction | Side of IC | ISP Usage |
+|--------|--------|----------------------|-----------|------------|-----------|
+| 1      | PB5    | Reset                | Unused    | Left       | Reset     |
+| 2      | PB3    | IR_LED_TX_PIN        | Output    | Left       |           |
+| 3      | PB4    | PHOTO_RX_PIN         | Input     | Left       |           |
+| 4      | GND    | Ground               | -         | Left       | GND       |
+| 5      | PB0    | UART_RX_PIN          | Output    | Right      | MOSI      |
+| 6      | PB1    | UART_TX_PIN          | Input     | Right      | MISO      |
+| 7      | PB2    | IR_ACTIVITY_LED_PIN  | Output    | Right      | SCK       |
+| 8      | VCC    | Supply Voltage (VCC) | -         | Right      | VCC       |
+
+The column "ISP Usage" shows what pins need to be connected for programming ("flashing") by a 6-pin AVR _In-System Programmer_ (ISP).
 
 ### Parts
 
