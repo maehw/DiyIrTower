@@ -77,11 +77,15 @@ Reading fuses with avrdude (and in this case an `ehajo-isp` in-system programmer
 avrdude -c ehajo-isp -p t13a -U hfuse:r:-:h -U lfuse:r:-:h 
 ```
 
-Flash the firmware:
+The default values for the two fuse bytes of the ATtiny13A are `0xff` (high), `0x6a` (low) and match the oscilator and clock pre-scaler conditions.
+
+Finally, flash the firmware:
 
 ```
 avrdude -c ehajo-isp -p t13a -U flash:w:main.elf:e
 ```
+
+Please note that under `./test/firmware`, there's some more code to test the assembled hardware like blinking the activity indication and IR LEDs (`blink.c`) or echo-ing the serially received UART characters (`serial_echo.c`).
 
 ### Disclaimer
 
