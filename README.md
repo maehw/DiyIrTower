@@ -36,7 +36,9 @@ Pin Assignment Table for the ATtiny13A:
 
 ### Breadboard or PCB
 
-tbc
+For breadboard see image above. The Fritzing breadboard diagram looks as follows (please also pay attention to the hints inside the image):
+
+![Fritzing breadboard diagram](./doc/media/breadboard.png)
 
 ### Firmware
 
