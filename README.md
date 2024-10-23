@@ -91,8 +91,8 @@ Make sure to burn the microcontrollers fuses so that
 
 Reading fuses with avrdude (and in this case an `ehajo-isp` in-system programmer):
 
-```
-avrdude -c ehajo-isp -p t13a -U hfuse:r:-:h -U lfuse:r:-:h 
+```shell
+avrdude -c ehajo-isp -p t13a -U hfuse:r:-:h -U lfuse:r:-:h
 ```
 
 The default values for the two fuse bytes of the ATtiny13A are `0xff` (high), `0x6a` (low) and match the oscilator and clock pre-scaler conditions.
@@ -103,13 +103,47 @@ The default values for the two fuse bytes of the ATtiny13A are `0xff` (high), `0
 
 Finally, flash the firmware:
 
-```
+```shell
 avrdude -c ehajo-isp -p t13a -U flash:w:main.elf:e
 ```
 
 
 
-Please note that under `./test/firmware`, there's some more code to test the assembled hardware like blinking the activity indication LED (`blink.c`) or echo-ing the serially received UART characters (`serial_echo.c`). The commands from above can be reused, only the filename needs to be changed.
+### Test firmware
+
+Please note that under `./test/firmware`, there's some more code to test the assembled hardware. The commands from above can be reused, only the filename needs to be changed.
+
+
+
+`blink.c` will blink the the activity indication LED and hence allow to check if the LED is working and the compilation and flashing also wokrs.
+
+
+
+`serial_echo.c` will echo the serially received UART characters. Please note that this example does not make use of any uC UART peripheral but only relies upon GPIO pin edge detection on the "UART" receive pin. This can be used with any terminal emulator that works with serial devices or with the Python script `/test/scripts/serial_coms.py` to send and receive binary data:
+
+```shell
+$ python serial_coms.py -h
+usage: serial_coms.py [-h] serial_device data_to_send
+
+Send binary data over serial and receive response.
+
+positional arguments:
+  serial_device  Name of the serial device (e.g., '/dev/ttyUSB0')
+  data_to_send   Binary data to send in HEX format (e.g., '55FF00609F609F')
+
+options:
+  -h, --help     show this help message and exit
+```
+
+Example:
+
+```shell
+$ python serial_coms.py /dev/ttyUSB0 11223344
+[TX] 11 22 33 44 
+[RX] 11 22 33 44
+```
+
+The same four bytes are received which have been transmitted before - just as you'd expect from an echo application!
 
 
 

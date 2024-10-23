@@ -33,7 +33,11 @@
  * IC Pin | Pin  | Purpose               | Direction | Side of IC
  * ----------------------------------------------------------------
  * 1      | PB5  | Reset                 | Unused    | Left
+ * 2      | PB3  | Unused                | Unused    | Left
+ * 3      | PB4  | Unused                | Unused    | Left
  * 4      | GND  | Ground                | -         | Left
+ * 5      | PB0  | Unused                | Unused    | Right
+ * 6      | PB1  | Unused                | Unused    | Right
  * 7      | PB2  | IR_ACTIVITY_LED_PIN   | Output    | Right
  * 8      | VCC  | Supply Voltage (VCC)  | -         | Right
  */

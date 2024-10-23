@@ -54,7 +54,7 @@
  * The default is: 0xff (high), 0x6a (low)
  *
  * Compile and link it like this:
- *   avr-gcc -g -Wall -Os -mmcu=attiny13 -o serial_echo.elf serial_echo.c
+ *   avr-gcc -g -Wall -Os -mmcu=attiny13a -o serial_echo.elf serial_echo.c
  * Flash it:
  *   avrdude -c ehajo-isp -p t13a -U flash:w:serial_echo.elf:e
  */
@@ -159,3 +159,4 @@ int main() {
 
     return 0;
 }
+

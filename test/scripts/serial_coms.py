@@ -58,3 +58,4 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     send_receive_serial_data(args.serial_device, args.data_to_send)
+
