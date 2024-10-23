@@ -53,7 +53,7 @@
  * The default is: 0xff (high), 0x6a (low)
  *
  * Compile and link it like this:
- *   avr-gcc -g -Wall -Os -mmcu=attiny13 -o main.elf main.c
+ *   avr-gcc -g -Wall -Os -mmcu=attiny13a -o main.elf main.c
  * Flash it:
  *   avrdude -c ehajo-isp -p t13a -U flash:w:main.elf:e
  */

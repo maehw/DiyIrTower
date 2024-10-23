@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-// This is just a classic "blinky" example that toggles the two LEDs (no infrared communication involved).
+// This is just a classic "blinky" example that toggles the activity LED (no infrared communication involved).
 
 #ifndef F_CPU
     #define F_CPU 9600000UL
@@ -33,7 +33,6 @@
  * IC Pin | Pin  | Purpose               | Direction | Side of IC
  * ----------------------------------------------------------------
  * 1      | PB5  | Reset                 | Unused    | Left
- * 2      | PB3  | IR_LED_TX_PIN         | Output    | Left
  * 4      | GND  | Ground                | -         | Left
  * 7      | PB2  | IR_ACTIVITY_LED_PIN   | Output    | Right
  * 8      | VCC  | Supply Voltage (VCC)  | -         | Right
@@ -49,22 +48,21 @@
  * The default is: 0xff (high), 0x6a (low)
  *
  * Compile and link it like this:
- *   avr-gcc -g -Wall -Os -mmcu=attiny13 -o blink.elf blink.c
+ *   avr-gcc -g -Wall -Os -mmcu=attiny13a -o blink.elf blink.c
  * Flash it:
  *   avrdude -c ehajo-isp -p t13a -U flash:w:blink.elf:e
  */
 
-#define IR_ACTIVITY_LED_PIN  PB2 // GPIO output pin for indicating IR TX modulation or IR RX signal detecttion from photo-transistor
-#define IR_LED_TX_PIN        PB3 // GPIO output pin for IR LED
+#define IR_ACTIVITY_LED_PIN  PB2 // GPIO output pin for activity LED (in production firmware used to indicate IR activity)
 
 void setup() {
     // Set LED pins as outputs
-    DDRB |= (1 << IR_ACTIVITY_LED_PIN) | (1 << IR_LED_TX_PIN);
+    DDRB |= (1 << IR_ACTIVITY_LED_PIN);
 
     // Initially switch them both on
-    PORTB |= (1 << IR_ACTIVITY_LED_PIN) | (1 << IR_LED_TX_PIN);
+    PORTB |= (1 << IR_ACTIVITY_LED_PIN);
 
-    _delay_ms(1500);
+    _delay_ms(100);
 }
 
 int main() {
@@ -74,15 +72,7 @@ int main() {
         // Toggle IR_ACTIVITY_LED_PIN
         PORTB ^= (1 << IR_ACTIVITY_LED_PIN);
 
-        // Toggle IR_LED_TX_PIN
-        PORTB ^= (1 << IR_LED_TX_PIN);
-
-        _delay_ms(500);
-
-        // Toggle IR_LED_TX_PIN
-        PORTB ^= (1 << IR_LED_TX_PIN);
-
-        _delay_ms(500);
+        _delay_ms(100);
     }
 
     return 0;

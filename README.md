@@ -49,15 +49,28 @@ An alternative would be a solder breadboard to make something semi-permanent (th
 ![Solder breadboard bottom](./doc/media/solder-breadboard_bottom.jpg)
 
 
-### Firmware
+
+
+## Firmware
 
 Find the productive firmware in folder `./firmware`.
+
+### Prerequisites
+
+- GNU C cross compiler for AVR 8-bit `gcc-avr` (other build toolchains *may* work as well)
+- `avrdude`: program for downloading and uploading the on-chip memories of AVR microcontrollers (or another similar tool)
+
+### Build
 
 To build, run:
 
 ```shell
-avr-gcc -g -Wall -Os -mmcu=attiny13 -o main.elf main.c
+avr-gcc -g -Wall -Os -mmcu=attiny13a -o main.elf main.c
 ```
+
+(Append the verbosity flag `-v` to see what's going on behind the scenes.)
+
+
 
 Want to check if it will it fit into the internal flash?
 
@@ -67,17 +80,26 @@ avr-size main.elf
     776	      0	      7	    783	    30f	main.elf
 ```
 
-Make sure to burn the fuses so that
+
+
+Make sure to burn the microcontrollers fuses so that
+
 - the calibrated internal 9.6 MHz oscillator is selected
 - clock pre-scaler set to 1 (device is shipped with CKDIV8 programmed).
 
+
+
 Reading fuses with avrdude (and in this case an `ehajo-isp` in-system programmer):
- 
+
 ```
 avrdude -c ehajo-isp -p t13a -U hfuse:r:-:h -U lfuse:r:-:h 
 ```
 
 The default values for the two fuse bytes of the ATtiny13A are `0xff` (high), `0x6a` (low) and match the oscilator and clock pre-scaler conditions.
+
+(Hint: If the `avrdude` version being used gives *"avrdude: AVR Part "t13a" not found."*, try using `t13` instead of `t13a`.)
+
+
 
 Finally, flash the firmware:
 
@@ -85,8 +107,12 @@ Finally, flash the firmware:
 avrdude -c ehajo-isp -p t13a -U flash:w:main.elf:e
 ```
 
-Please note that under `./test/firmware`, there's some more code to test the assembled hardware like blinking the activity indication and IR LEDs (`blink.c`) or echo-ing the serially received UART characters (`serial_echo.c`).
 
-### Disclaimer
+
+Please note that under `./test/firmware`, there's some more code to test the assembled hardware like blinking the activity indication LED (`blink.c`) or echo-ing the serially received UART characters (`serial_echo.c`). The commands from above can be reused, only the filename needs to be changed.
+
+
+
+## Disclaimer
 
 LEGO® is a trademark of the LEGO Group of companies which does not sponsor, authorize or endorse this project.
