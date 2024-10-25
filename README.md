@@ -13,6 +13,8 @@ to **load user programs and firmware** on the yellow LEGO Mindstorms RCX program
 
 ## Hardware
 
+> ⚠️ **Warning**: Exposure to infrared light can cause harm to humans. Prolonged or intense exposure may lead to damage to the eyes or skin. Always use proper safety equipment when working with infrared light sources. Make sure to limit the current through the infrared TX LED!
+
 ### Pin Assignment
 
 Pin Assignment Table for the ATtiny13A:
