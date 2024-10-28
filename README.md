@@ -149,6 +149,24 @@ The same four bytes are received which have been transmitted before - just as yo
 
 
 
+## Design details
+
+The following timing diagram shows four signals from top to bottom:
+
+* UART_TX_PIN: the UART transmit (=TX) signal - as sent by the PC, coming from the USB/serial converter
+* IR_LED_TX_PIN: the modulated infrared transmit signal on the IR TX LED, on–off keying (OOK) modulated at 38 kHz, 38 kHz carrier is _active_ during _low_ periods of UART_TX_PIN
+* PHOTO_RX_PIN: the signal on the (already demodulated) infrared receiver
+* UART_RX_PIN: the UART receive (=RX) signal - as sent by the DIY IR tower to the USB/serial converter
+
+![Timing diagram](./doc/media/timing.png)
+
+The diagram shows the message `0x55 0xFF 0x00 0x10 0xEF` 0x10 0xEF being sent from the PC to the RCX (first half). It also shows the response from the RCX to the PC: `0x55 0xFF 0x00 0xEF 0x10 0xEF 0x10` (second half). In the first half one can also see that the signal transmitted by the DIY IR tower is reflected and directly received by itself. This is due to the arrangement of IR TX LED and IR receiver - and afair can also be seen with the original IR towers. This "echo effect" must/can be handled in software!
+
+Zooming in (less time for the same screen width) reveals the delays between the signals:
+
+![Timing diagram with details](./doc/media/timing_details.png)
+
+
 ## Disclaimer
 
 LEGO® is a trademark of the LEGO Group of companies which does not sponsor, authorize or endorse this project.
