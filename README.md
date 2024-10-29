@@ -97,7 +97,11 @@ Reading fuses with avrdude (and in this case an `ehajo-isp` in-system programmer
 avrdude -c ehajo-isp -p t13a -U hfuse:r:-:h -U lfuse:r:-:h
 ```
 
-The default values for the two fuse bytes of the ATtiny13A are `0xff` (high), `0x6a` (low) and match the oscilator and clock pre-scaler conditions.
+The default values for the two fuse bytes of the ATtiny13A are `0xff` (high), `0x6a` (low).  The required settings however are: `0xff` (high), `0x7a` (low). Writing fuses with avrdude:
+
+```shell
+avrdude -c ehajo-isp -p t13a -U hfuse:w:0xff:m -U lfuse:w:0x7a:m
+```
 
 (Hint: If the `avrdude` version being used gives *"avrdude: AVR Part "t13a" not found."*, try using `t13` instead of `t13a`.)
 
@@ -117,7 +121,10 @@ Please note that under `./test/firmware`, there's some more code to test the ass
 
 
 
-`blink.c` will blink the the activity indication LED and hence allow to check if the LED is working and the compilation and flashing also wokrs.
+`blink.c` will blink the activity indication LED and hence allow to check if the LED is working and the compilation and flashing also works.
+
+
+`pulsed_ir_tx.c` will blink the activity indication LED and also transmit modulated infrared light at 38 kHz for 0.5 seconds and then switch the transmitter off for another 0.5 seconds. This allows to check if the fuse bytes have been set correctly or the blinking is way slower and the default `CKDIV8` may not have been overwritten.
 
 
 

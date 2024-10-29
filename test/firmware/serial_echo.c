@@ -47,11 +47,16 @@
 /*
  * Make sure to burn the fuses so that
  * - the calibrated internal 9.6 MHz oscillator is selected
- * - clock pre-scaler set to 1 (device is shipped with CKDIV8 programmed).
+ * - clock pre-scaler set to 1 (device is shipped with CKDIV8 programmed; which is not what we want).
  *
  * Reading fuses with avrdude (and in this case an ehajo-isp):
  *   avrdude -c ehajo-isp -p t13a -U hfuse:r:-:h -U lfuse:r:-:h
  * The default is: 0xff (high), 0x6a (low)
+ *
+ * The required setting is: 0xff (high), 0x7a (low)
+ * Writing fuses with avrdude:
+ *   avrdude -c ehajo-isp -p t13a -U hfuse:w:0xff:m -U lfuse:w:0x7a:m
+ * Note: The setting is not really relevant for this example because even CKDIV8 should be fast enough.
  *
  * Compile and link it like this:
  *   avr-gcc -g -Wall -Os -mmcu=attiny13a -o serial_echo.elf serial_echo.c

@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-// This is just a classic "blinky" example that toggles the activity LED (no infrared communication involved).
+// This is just a classic "blinky" example that toggles the activity LED at 1 Hz (no infrared communication involved).
 
 #ifndef F_CPU
     #define F_CPU 9600000UL
@@ -45,11 +45,15 @@
 /*
  * Make sure to burn the fuses so that
  * - the calibrated internal 9.6 MHz oscillator is selected
- * - clock pre-scaler set to 1 (device is shipped with CKDIV8 programmed).
+ * - clock pre-scaler set to 1 (device is shipped with CKDIV8 programmed; which is not what we want).
  *
  * Reading fuses with avrdude (and in this case an ehajo-isp):
  *   avrdude -c ehajo-isp -p t13a -U hfuse:r:-:h -U lfuse:r:-:h
  * The default is: 0xff (high), 0x6a (low)
+ *
+ * The required setting is: 0xff (high), 0x7a (low)
+ * Writing fuses with avrdude:
+ *   avrdude -c ehajo-isp -p t13a -U hfuse:w:0xff:m -U lfuse:w:0x7a:m
  *
  * Compile and link it like this:
  *   avr-gcc -g -Wall -Os -mmcu=attiny13a -o blink.elf blink.c
@@ -60,10 +64,10 @@
 #define IR_ACTIVITY_LED_PIN  PB2 // GPIO output pin for activity LED (in production firmware used to indicate IR activity)
 
 void setup() {
-    // Set LED pins as outputs
+    // Set LED pin as output
     DDRB |= (1 << IR_ACTIVITY_LED_PIN);
 
-    // Initially switch them both on
+    // Initially it on
     PORTB |= (1 << IR_ACTIVITY_LED_PIN);
 
     _delay_ms(100);
@@ -76,7 +80,7 @@ int main() {
         // Toggle IR_ACTIVITY_LED_PIN
         PORTB ^= (1 << IR_ACTIVITY_LED_PIN);
 
-        _delay_ms(100);
+        _delay_ms(500);
     }
 
     return 0;

@@ -46,11 +46,15 @@
 /*
  * Make sure to burn the fuses so that
  * - the calibrated internal 9.6 MHz oscillator is selected
- * - clock pre-scaler set to 1 (device is shipped with CKDIV8 programmed).
+ * - clock pre-scaler set to 1 (device is shipped with CKDIV8 programmed; which is not what we want).
  *
  * Reading fuses with avrdude (and in this case an ehajo-isp):
  *   avrdude -c ehajo-isp -p t13a -U hfuse:r:-:h -U lfuse:r:-:h
  * The default is: 0xff (high), 0x6a (low)
+ *
+ * The required setting is: 0xff (high), 0x7a (low)
+ * Writing fuses with avrdude:
+ *   avrdude -c ehajo-isp -p t13a -U hfuse:w:0xff:m -U lfuse:w:0x7a:m
  *
  * Compile and link it like this:
  *   avr-gcc -g -Wall -Os -mmcu=attiny13a -o main.elf main.c
@@ -64,7 +68,6 @@
 #define IR_ACTIVITY_LED_PIN  PB2 // GPIO output pin for indicating IR TX modulation or IR RX signal detection from photo-transistor
 #define UART_RX_PIN          PB0 // GPIO output pin that mirrors the input from the photo-transistor
 
-//#define MODULATION_FREQ                 38000 // 38 kHz
 #define MODULATION_FREQ                 38000 // 38 kHz
 #define MODULATION_HALF_PERIOD          (F_CPU / (2 * MODULATION_FREQ)) -2 // Calculate the half period in clock cycles; make sure that we really get this to ~2*38 kHz here
 // Needed to add a small correction offset determined by measurement:
