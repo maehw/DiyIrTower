@@ -17,6 +17,8 @@ to **load user programs and firmware** on the yellow LEGO Mindstorms RCX program
 
 ### Pin Assignment
 
+At the heart of the DIY solution, there's an 8-pin ATtiny13A microcontroller.
+
 Pin Assignment Table for the ATtiny13A:
 
 | IC Pin | Pin    | Purpose              | Direction | Side of IC | ISP Usage |
@@ -32,15 +34,17 @@ Pin Assignment Table for the ATtiny13A:
 
 The column "ISP Usage" shows what pins need to be connected for programming ("flashing") by a 6-pin AVR _In-System Programmer_ (ISP).
 
-### Parts
+### Hardware Parts
 
-- ATtiny13A as microcontroller (calibrated internal 9.6 MHz oscillator as clock source; other uCs such as the ATtiny85 _may_ work as they have more SRAM and more flash memory, but timing values will need to be adjusted)
+- ATtiny13A microcontroller as the "brain" (calibrated internal 9.6 MHz oscillator as clock source; other uCs such as the ATtiny85 _may_ work as they have more SRAM and more flash memory, but timing values will need to be adjusted)
 - Vishay Semiconductors TSOP4338 38 kHz infrared receiver (others 38 kHz infrared receivers _may_ work)
 - Vishay Semiconductors TSAL6200 940 nm infrared TX LED (others 940 nm infrared TX LEDs _may_ work)
 
+If you've built a working DiyIrTower yourself with these or different parts, please let me know!
+
 ### Breadboard or PCB
 
-For breadboard see image above. The Fritzing breadboard diagram looks as follows (please also pay attention to the hints inside the image):
+For the breadboard version see the image at the top. The Fritzing breadboard diagram looks as follows (please also pay attention to the hints inside the image):
 
 ![Fritzing breadboard diagram](./doc/media/breadboard.png)
 
@@ -50,7 +54,7 @@ An alternative would be a solder breadboard to make something semi-permanent (th
 
 ![Solder breadboard bottom](./doc/media/solder-breadboard_bottom.jpg)
 
-
+There's currently no schematic + PCB design and hence no Gerber files to order them somewhere. I'd be happy, if we could an open hardware design (using KiCad) in the future.
 
 
 ## Firmware
@@ -59,7 +63,7 @@ Find the productive firmware in folder `./firmware`.
 
 ### Prerequisites
 
-- GNU C cross compiler for AVR 8-bit `gcc-avr` (other build toolchains *may* work as well)
+- GNU C cross-compiler for AVR 8-bit `gcc-avr` (other build toolchains *may* work as well)
 - `avrdude`: program for downloading and uploading the on-chip memories of AVR microcontrollers (or another similar tool)
 
 ### Build
@@ -70,7 +74,7 @@ To build, run:
 avr-gcc -g -Wall -Os -mmcu=attiny13a -o main.elf main.c
 ```
 
-(Append the verbosity flag `-v` to see what's going on behind the scenes.)
+_(Append the verbosity flag `-v` to see what's going on behind the scenes.)_
 
 
 
@@ -103,7 +107,7 @@ The default values for the two fuse bytes of the ATtiny13A are `0xff` (high), `0
 avrdude -c ehajo-isp -p t13a -U hfuse:w:0xff:m -U lfuse:w:0x7a:m
 ```
 
-(Hint: If the `avrdude` version being used gives *"avrdude: AVR Part "t13a" not found."*, try using `t13` instead of `t13a`.)
+_(Hint: If the `avrdude` version being used gives *"avrdude: AVR Part "t13a" not found."*, try using `t13` instead of `t13a`.)_
 
 
 
@@ -117,18 +121,18 @@ avrdude -c ehajo-isp -p t13a -U flash:w:main.elf:e
 
 ### Test firmware
 
-Please note that under `./test/firmware`, there's some more code to test the assembled hardware. The commands from above can be reused, only the filename needs to be changed.
+Please note that under `./test/firmware`, there are some more code files to test the assembled hardware. The commands from above can be reused, only the filename needs to be changed.
 
 
 
-`blink.c` will blink the activity indication LED and hence allow to check if the LED is working and the compilation and flashing also works.
+`blink.c` will blink the activity indication LED and hence allow to check if the LED is working and the compilation and flashing mechanisms also work.
 
 
 `pulsed_ir_tx.c` will blink the activity indication LED and also transmit modulated infrared light at 38 kHz for 0.5 seconds and then switch the transmitter off for another 0.5 seconds. This allows to check if the fuse bytes have been set correctly or the blinking is way slower and the default `CKDIV8` may not have been overwritten.
 
 
 
-`serial_echo.c` will echo the serially received UART characters. Please note that this example does not make use of any uC UART peripheral but only relies upon GPIO pin edge detection on the "UART" receive pin. This can be used with any terminal emulator that works with serial devices or with the Python script `/test/scripts/serial_coms.py` to send and receive binary data:
+`serial_echo.c` will _echo_ the serially received UART characters. Please note that this example does not make use of any uC UART peripheral but only relies upon GPIO pin edge detection on the "UART" receive pin. This can be used with any terminal emulator that works with serial devices or with the Python script `/test/scripts/serial_coms.py` to send and receive binary data:
 
 ```shell
 $ python serial_coms.py -h
@@ -152,7 +156,7 @@ $ python serial_coms.py /dev/ttyUSB0 11223344
 [RX] 11 22 33 44
 ```
 
-The same four bytes are received which have been transmitted before - just as you'd expect from an echo application!
+The same four bytes should be received that also have been transmitted before - just as you'd expect from an echo application! Check the command line output!
 
 
 
@@ -160,14 +164,16 @@ The same four bytes are received which have been transmitted before - just as yo
 
 The following timing diagram shows four signals from top to bottom:
 
-* UART_TX_PIN: the UART transmit (=TX) signal - as sent by the PC, coming from the USB/serial converter
-* IR_LED_TX_PIN: the modulated infrared transmit signal on the IR TX LED, on–off keying (OOK) modulated at 38 kHz, 38 kHz carrier is _active_ during _low_ periods of UART_TX_PIN
-* PHOTO_RX_PIN: the signal on the (already demodulated) infrared receiver
-* UART_RX_PIN: the UART receive (=RX) signal - as sent by the DIY IR tower to the USB/serial converter
+* `UART_TX_PIN`: the UART transmit (=TX) signal - as sent by the PC, coming from the attached USB/serial converter
+* `IR_LED_TX_PIN`: the modulated infrared transmit signal on the IR TX LED, on–off keying (OOK) modulated at 38 kHz, 38 kHz carrier is _active_ during _low_ periods of `UART_TX_PIN`
+* `PHOTO_RX_PIN`: the signal on the (already demodulated) infrared receiver
+* `UART_RX_PIN`: the UART receive (=RX) signal - as sent by the DIY IR tower to the USB/serial converter
 
 ![Timing diagram](./doc/media/timing.png)
 
-The diagram shows the message `0x55 0xFF 0x00 0x10 0xEF` 0x10 0xEF being sent from the PC to the RCX (first half). It also shows the response from the RCX to the PC: `0x55 0xFF 0x00 0xEF 0x10 0xEF 0x10` (second half). In the first half one can also see that the signal transmitted by the DIY IR tower is reflected and directly received by itself. This is due to the arrangement of IR TX LED and IR receiver - and afair can also be seen with the original IR towers. This "echo effect" must/can be handled in software!
+The diagram shows the message `0x55 0xFF 0x00 0x10 0xEF 0x10 0xEF` being sent from the PC to the RCX (left half). It also shows the response from the RCX to the PC: `0x55 0xFF 0x00 0xEF 0x10 0xEF 0x10` (right half).
+
+In the left half one can also see that the signal transmitted by the DIY IR tower is reflected and directly received by itself. This is due to the arrangement of IR TX LED and IR receiver - and afair can also be seen with the original IR towers. This "echo effect" must/can be handled in software!
 
 Zooming in (less time for the same screen width) reveals the delays between the signals:
 
