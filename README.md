@@ -42,20 +42,37 @@ The column "ISP Usage" shows what pins need to be connected for programming ("fl
 
 If you've built a working DiyIrTower yourself with these or different parts, please let me know!
 
-### Breadboard or PCB
+### Classic Breadboard
 
 For the breadboard version see the image at the top. The Fritzing breadboard diagram looks as follows (please also pay attention to the hints inside the image):
 
 ![Fritzing breadboard diagram](./doc/media/breadboard.png)
 
-An alternative would be a solder breadboard to make something semi-permanent (the green activity LED is hidden between the jumper wires of the USB/serial converter cable):
+
+### Solder Breadboard
+
+An alternative would be a solder breadboard to make something semi-permanent (the green activity LED is hidden in the next photo between the jumper wires of the USB/serial converter cable):
 
 ![Solder breadboard top](./doc/media/solder-breadboard_top.jpg)
 
 ![Solder breadboard bottom](./doc/media/solder-breadboard_bottom.jpg)
 
-There's currently no schematic + PCB design and hence no Gerber files to order them somewhere. I'd be happy, if we could an open hardware design (using KiCad) in the future.
 
+### CAD PCB with KiCAD
+
+Since January 2026, there's a KiCAD project with all necessary files (i.e. schematic, PCB layout, pre-generated Gerber files). So instead of putting the components together on a breadboard, a PCB can be ordered. At the time of writing, some prototype PCBs (Rev. 1.0) have been ordered. But I cannot guarantee, that the design is free of bugs.
+
+![PCB (front) without components](./doc/media/pcb_rev1_nocomponents_back.png)
+
+![PCB (back) without components](./doc/media/pcb_rev1_nocomponents_front.png)
+
+![PCB (front) with THT components](doc/media/pcb_rev1_front.png)
+
+I've decided to keep through-hole components, as they are easier to solder for beginners. It may make sense to add a DIP8 IC socket for the uC. The power and activity LEDs (and their resistors) are optional, as is the ISP header for initially flashing the IC. So a setup with the minimum of components would look like this:
+
+![PCB (front) with minimum of THT components](doc/media/pcb_rev1_mincomponents_front.png)
+
+By the way, I'd choose a rectangular connector for J1. Also, you'll have to bend the TX photo diode D2 sideways, so that it points to the same side as the IR receiver IC.
 
 ## Firmware
 

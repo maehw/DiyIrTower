@@ -1,0 +1,5 @@
+(fp_lib_table
+  (version 7)
+  (lib (name "IrLed")(type "KiCad")(uri "${KIPRJMOD}/IrLed.pretty")(options "")(descr ""))
+  (lib (name "brick-4_9id-6_0od")(type "KiCad")(uri "${KIPRJMOD}/brick-4_9id-6_0od.pretty")(options "")(descr ""))
+)

@@ -4,3 +4,7 @@
 *.php
 *.elf
 **/__pycache__
+
+# KiCad
+**/*-backups/**
+*.bak
