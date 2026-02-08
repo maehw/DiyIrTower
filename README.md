@@ -37,10 +37,10 @@ The column "ISP Usage" shows what pins need to be connected for programming ("fl
 ### Hardware Parts
 
 - ATtiny13A microcontroller as the "brain" (calibrated internal 9.6 MHz oscillator as clock source; other uCs such as the ATtiny85 _may_ work as they have more SRAM and more flash memory, but timing values will need to be adjusted)
-- Vishay Semiconductors TSOP4338 38 kHz infrared receiver (others 38 kHz infrared receivers _may_ work)
+- Vishay Semiconductors TSOP4338 or TSOP4838 38 kHz infrared receiver (others 38 kHz infrared receivers _may_ work)
 - Vishay Semiconductors TSAL6200 940 nm infrared TX LED (others 940 nm infrared TX LEDs _may_ work)
 
-If you've built a working DiyIrTower yourself with these or different parts, please let me know!
+If you've built a working DiyIrTower yourself with these or different parts, please let me know! The first design has used the TSOP4338. As it's not available everywhere, it has also been tested to work with the TSOP4838.
 
 ### Classic Breadboard
 
