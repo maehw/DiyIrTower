@@ -42,6 +42,8 @@ The column "ISP Usage" shows what pins need to be connected for programming ("fl
 
 If you've built a working DiyIrTower yourself with these or different parts, please let me know! The first design has used the TSOP4338. As it's not available everywhere, it has also been tested to work with the TSOP4838.
 
+In my case, the circuitry is powered by a USB/serial converter cable which is also used to transfer the data over a virtual COM port (USB CDC interface). Please note that the converter cable of choice uses TTL voltage levels and not RS-232!
+
 ### Classic Breadboard
 
 For the breadboard version see the image at the top. The Fritzing breadboard diagram looks as follows (please also pay attention to the hints inside the image):
